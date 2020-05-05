@@ -6,7 +6,7 @@ const escapeString = (str) => str ? '\'' + str.replace(/'/g, '\\\'').replace(/`/
 const orNull = (val) => val || null;
 const numOrNull = (num) => typeof num === 'number' ? num : 'null';
 
-const valsPerInsert = 25;
+const valsPerInsert = 50;
 
 const tables = {
   pokemon:    {
@@ -85,7 +85,6 @@ const tables = {
 let out = `
 CREATE DATABASE pokemon IF NOT EXISTS;
 USE pokemon;
-
 `;
 
 Object.getOwnPropertyNames(db).forEach(key => {
@@ -93,7 +92,7 @@ Object.getOwnPropertyNames(db).forEach(key => {
   const data = db[key];
   const table = tables[key];
 
-  console.log(data[1])
+  console.log(data[1]);
 
   const values = data.map(table.valuesMap);
   const valueSets = values.reduce((arr, next, i) => {
@@ -109,10 +108,10 @@ Object.getOwnPropertyNames(db).forEach(key => {
   }, []);
 
   const insertStatements = valueSets.map(vArr => {
-    return `${table.insertHeader} \n\t${vArr.join(',\n\t')};`;
+    return `${table.insertHeader} ${vArr.join(', ')};`;
   });
 
-  out += table.create + '\n' + insertStatements.join('\n\n') + '\n\n';
+  out += table.create + '\n' + insertStatements.join('\n') + '\n';
 
 });
 
