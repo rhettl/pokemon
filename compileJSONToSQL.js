@@ -2,7 +2,12 @@ const fs    = require('fs');
 const db    = require('./compiled/pokemon');
 const untab = require('unindent');
 
-const escapeString = (str) => str ? '\'' + str.replace(/'/g, '\\\'').replace(/`/g, '\\`') + '\'' : 'null';
+const replace = (str) => str
+  .replace(/'/g, '\\\'')
+  .replace(/`/g, '\\`')
+  .replace(/;/g, '.')
+;
+const escapeString = (str) => str ? '\'' + replace(str) + '\'' : 'null';
 const orNull = (val) => val || null;
 const numOrNull = (num) => typeof num === 'number' ? num : 'null';
 
@@ -34,12 +39,12 @@ const tables = {
     create:       untab(`
       create table pokemon.evolutions
       (
+        id          int         auto_increment primary key,
         evFrom      int         not null,
         evTo        int         not null,
         level       int         null,
-        evCondition varchar(16) not null,
-        type        varchar(16) not null,
-        primary key (evFrom, evTo)
+        evCondition varchar(64) null,
+        type        varchar(16) not null
       );
     `),
     insertHeader: `INSERT INTO pokemon.evolutions (evFrom, evTo, level, evCondition, type) VALUES`,
@@ -54,7 +59,7 @@ const tables = {
         defence       varchar(16) not null,
         effectiveness varchar(64) not null,
         multiplier    double      null,
-        primary key (attack, defend)
+        primary key (attack, defence)
       );
     `),
     insertHeader: `INSERT INTO pokemon.types (attack, defence, effectiveness, multiplier) VALUES`,
@@ -65,15 +70,15 @@ const tables = {
     create:       untab(`
       create table pokemon.moves
       (
-        name             varchar(16) not null primary key,
-        type             varchar(16) not null,
-        category         varchar(16) not null,
-        power            int         null,
-        accuracy         int         null,
-        pp               int         null,
-        tm               int         null,
-        effect           varchar(64) null,
-        probability_perc int         null
+        name             varchar(16)  not null primary key,
+        type             varchar(16)  not null,
+        category         varchar(16)  not null,
+        power            int          null,
+        accuracy         int          null,
+        pp               int          null,
+        tm               int          null,
+        effect           varchar(128) null,
+        probability_perc int          null
       );
     `),
     insertHeader: `INSERT INTO pokemon.moves (name, type, category, power, accuracy, pp, tm, effect, probability_perc) VALUES`,
@@ -82,10 +87,7 @@ const tables = {
   }
 };
 
-let out = `
-CREATE DATABASE pokemon IF NOT EXISTS;
-USE pokemon;
-`;
+let out = `CREATE DATABASE \`pokemon\` CHARACTER SET UTF8 COLLATE utf8_bin;\n`;
 
 Object.getOwnPropertyNames(db).forEach(key => {
 
