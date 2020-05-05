@@ -1,0 +1,15 @@
+{
+  "name": "pokemon-mysql",
+  "version": "1.0.0",
+  "description": "",
+  "main": "compileToJSON.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "csv-parse": "^4.9.0",
+    "unindent": "^2.0.0"
+  }
+}
