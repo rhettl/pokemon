@@ -8838,7 +8838,7 @@
       "spDefense": 49,
       "speed": 35,
       "type1": "STEEL",
-      "type2": null
+      "type2": "GHOST"
     },
     {
       "number": 681,
@@ -10745,6 +10745,24 @@
       "to": 413,
       "level": 20,
       "condition": "Female, outside",
+      "type": "Level",
+      "fromName": "Burmy",
+      "toName": "Wormadam"
+    },
+    {
+      "from": 412,
+      "to": 413,
+      "level": 20,
+      "condition": "Female, in caves",
+      "type": "Level",
+      "fromName": "Burmy",
+      "toName": "Wormadam"
+    },
+    {
+      "from": 412,
+      "to": 413,
+      "level": 20,
+      "condition": "Female, in buildings",
       "type": "Level",
       "fromName": "Burmy",
       "toName": "Wormadam"
